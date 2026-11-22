@@ -1,0 +1,77 @@
+def add_student():
+    """Add a new student record to the file"""
+    try:
+        roll = input("Enter Roll Number: ").strip()
+        name = input("Enter Student Name: ").strip()
+        marks = input("Enter Marks: ").strip()
+
+        # Basic validation
+        if not roll or not name or not marks:
+            print("Error: All fields are required!\n")
+            return
+
+        # Append the record to the file
+        with open("students.txt", "a") as file:
+            file.write(f"{roll},{name},{marks}\n")
+
+        print("Student record added successfully!\n")
+
+    except Exception as e:
+        print(f"An error occurred while adding the record: {e}\n")
+
+
+def display_students():
+    """Display all student records from the file"""
+    try:
+        with open("students.txt", "r") as file:
+            records = file.readlines()
+
+            if not records:
+                print("No student records found.\n")
+                return
+
+            print("\n----- Student Records -----")
+            print(f"{'Roll No':<12} {'Name':<20} {'Marks':<10}")
+            print("-" * 42)
+
+            for line in records:
+                line = line.strip()
+                if line:  # skip empty lines
+                    parts = line.split(",")
+                    if len(parts) == 3:
+                        roll, name, marks = parts
+                        print(f"{roll:<12} {name:<20} {marks:<10}")
+                    else:
+                        print(f"Invalid record format: {line}")
+
+            print("-" * 42 + "\n")
+
+    except FileNotFoundError:
+        print("No student records found. The file does not exist yet.\n")
+    except Exception as e:
+        print(f"An error occurred while reading the records: {e}\n")
+
+
+def main():
+    """Main menu-driven program"""
+    while True:
+        print("===== Student Data Manager =====")
+        print("1. Add a new student record")
+        print("2. Display all student records")
+        print("3. Exit")
+        
+        choice = input("Enter your choice (1-3): ").strip()
+
+        if choice == "1":
+            add_student()
+        elif choice == "2":
+            display_students()
+        elif choice == "3":
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice! Please enter 1, 2, or 3.\n")
+
+
+if __name__ == "__main__":
+    main()

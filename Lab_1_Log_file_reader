@@ -1,0 +1,31 @@
+def read_log_file(filename="log.txt"):
+    try:
+        # Open the log file in read mode
+        with open(filename, "r") as file:
+            error_count = 0
+            
+            print("Contents of the log file:")
+            print("-" * 40)
+            
+            # Display all contents line by line and count ERROR messages
+            for line in file:
+                print(line.strip())  # Display each line
+                
+                # Count lines that contain "ERROR"
+                if "ERROR" in line:
+                    error_count += 1
+            
+            print("-" * 40)
+            # Display the total number of errors
+            print(f"Total number of ERROR messages: {error_count}")
+            
+    except FileNotFoundError:
+        print(f"Error: The file '{filename}' does not exist.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+
+# Run the program
+if __name__ == "__main__":
+    read_log_file()
+    
